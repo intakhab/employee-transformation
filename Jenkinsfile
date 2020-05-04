@@ -1,14 +1,15 @@
 pipeline{
 	agent any
+	
     stages{
-      stage('Build Application'){
+      stage('Build'){
             steps {
               echo 'Application is building'
               bat 'mvn clean install'
             }
   
        }
-       stage('Deploy Application'){
+       stage('Deploy'){
             steps {
               echo 'Application is deploying'
               bat 'mvn package deploy -DmuleDeploy'

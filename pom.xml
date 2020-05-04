@@ -26,6 +26,16 @@
 				<version>${mule.maven.plugin.version}</version>
 				<extensions>true</extensions>
 				<configuration>
+				<cloudHubDeployment>
+						<username>irinirani2</username>
+						<password>Welcome@123</password>
+						<environment>dev</environment>
+						<objectStoreV2>true</objectStoreV2>
+						<workers>1</workers>
+						<workerType>Micro</workerType>
+						<applicationName>employee-transformation-deploy</applicationName>
+						<muleVersion>4.2.2</muleVersion>
+					</cloudHubDeployment>
 				</configuration>
 			</plugin>
 		</plugins>
