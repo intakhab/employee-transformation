@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="81b1ca3e-4044-4519-833d-6827cf27e359" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="27a4cb56-9b2d-4b1f-a5b0-dab253ecf865" >
+		<http:request-connection host="dummy.restapiexample.com" />
+	</http:request-config>
+	<configuration-properties doc:name="Configuration properties" doc:id="cb41ef14-dfe5-47a5-8e33-70d75e1c0895" file="mule-${env}.properties" />
+	<global-property doc:name="Global Property" doc:id="70caf2d3-13ae-4b31-afc4-56fb8671046c" name="env" value="dev" />
+	<flow name="employee-transformationFlow" doc:id="56be8dcb-59ff-4997-a455-9fc2b0aa6194" >
+		<http:listener doc:name="/Employee GET" doc:id="0eeed580-9469-4ac2-9fca-2ab02e8ad4ab" config-ref="HTTP_Listener_config" path="${url.name}" />
+		<logger level="INFO" doc:name="Logger" doc:id="17385dbb-3771-4dc5-a1e4-9d0891dc690f" message="#[payload]" />
+		<http:request method="GET" doc:name="Rest Request Call" doc:id="85687434-9295-458e-8a55-2d52fda710c7" config-ref="HTTP_Request_configuration" path="/api/v1/employees" />
+		<ee:transform doc:name="Transform Message" doc:id="a1af3b8c-ec74-4f9d-8c5b-f92472250f7f" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/xml
+---
+employees:payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
